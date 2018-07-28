@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="service.sqlite3">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.7">
+    <root id="1"/>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <collation id="3" parent="1" name="BINARY"/>
+    <collation id="4" parent="1" name="NOCASE"/>
+    <collation id="5" parent="1" name="RTRIM"/>
+    <table id="6" parent="2" name="item"/>
+    <table id="7" parent="2" name="sqlite_master">
+      <System>1</System>
+    </table>
+    <table id="8" parent="2" name="user"/>
+    <column id="9" parent="6" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="10" parent="6" name="type">
+      <Position>2</Position>
+      <DataType>SMALLINT|0s</DataType>
+    </column>
+    <column id="11" parent="6" name="itemName">
+      <Position>3</Position>
+      <DataType>VARCHAR(20)|0s</DataType>
+    </column>
+    <column id="12" parent="6" name="date">
+      <Position>4</Position>
+      <DataType>DATE|0s</DataType>
+    </column>
+    <column id="13" parent="6" name="place">
+      <Position>5</Position>
+      <DataType>VARCHAR(30)|0s</DataType>
+    </column>
+    <column id="14" parent="6" name="img">
+      <Position>6</Position>
+      <DataType>VARCHAR(200)|0s</DataType>
+    </column>
+    <column id="15" parent="6" name="des">
+      <Position>7</Position>
+      <DataType>VARCHAR(200)|0s</DataType>
+    </column>
+    <column id="16" parent="6" name="user_id">
+      <Position>8</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <key id="17" parent="6">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="18" parent="6">
+      <ColNames>user_id</ColNames>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="19" parent="7" name="type">
+      <Position>1</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="20" parent="7" name="name">
+      <Position>2</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="21" parent="7" name="tbl_name">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="22" parent="7" name="rootpage">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <column id="23" parent="7" name="sql">
+      <Position>5</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="24" parent="8" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="8" name="openId">
+      <Position>2</Position>
+      <DataType>VARCHAR(100)|0s</DataType>
+    </column>
+    <column id="26" parent="8" name="avatarUrl">
+      <Position>3</Position>
+      <DataType>VARCHAR(200)|0s</DataType>
+    </column>
+    <column id="27" parent="8" name="nickName">
+      <Position>4</Position>
+      <DataType>VARCHAR(30)|0s</DataType>
+    </column>
+    <column id="28" parent="8" name="phoneNumber">
+      <Position>5</Position>
+      <DataType>VARCHAR(11)|0s</DataType>
+    </column>
+    <column id="29" parent="8" name="qqNumber">
+      <Position>6</Position>
+      <DataType>VARCHAR(11)|0s</DataType>
+    </column>
+    <column id="30" parent="8" name="weixinNumber">
+      <Position>7</Position>
+      <DataType>VARCHAR(20)|0s</DataType>
+    </column>
+    <index id="31" parent="8" name="sqlite_autoindex_user_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>openId</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="32" parent="8">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="33" parent="8">
+      <ColNames>openId</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_user_1</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>

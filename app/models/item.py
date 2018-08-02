@@ -45,6 +45,15 @@ class Item(db.Model):
             print(e)
         return False
 
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+        return False
+
     @staticmethod
     def createItemByPostData(kwargs, user_id):
         try:

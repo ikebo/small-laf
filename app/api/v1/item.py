@@ -14,7 +14,7 @@ def R(r):
 @api_v1.route('/item', methods=['GET'])
 def get_items():
     try:
-        items = Item.query.order_by(Item.date).all()
+        items = Item.query.order_by(Item.date.desc()).all()
         data = [item.raw() for item in items]
         print(data)
         return jsonify(Res(1, 'get items successfully', data).raw())
@@ -26,13 +26,14 @@ def get_items():
 @api_v1.route(R('/<int:user_id>'), methods=['GET'])
 def get_by_userId(user_id):
     try:
-        items = Item.query.filter_by(user_id=user_id).order_by(Item.date).all()
+        items = Item.query.filter_by(user_id=user_id).order_by(Item.date.desc()).all()
         data = [item.raw() for item in items]
         print(data)
         return jsonify(Res(1, 'get items successfully', data).raw())
     except Exception as e:
         print(e)
     return jsonify(Res(0, 'something error').raw())
+
 
 @api_v1.route(R('/<int:item_id>'), methods=['PUT'])
 def edit_item(item_id):
@@ -45,6 +46,15 @@ def edit_item(item_id):
         return jsonify(Res(1, 'edit item successfully').raw())
     return jsonify(Res(2, 'something error').raw())
 
+
+@api_v1.route(R('/<int:item_id>'), methods=['DELETE'])
+def delete_item(item_id):
+    item = Item.query.get(item_id)
+    if item is None:
+        return jsonify(Res(0, 'item does not exists').raw())
+    if item.delete():
+        return jsonify(Res(1, 'delete item successfully').raw())
+    
 
 @api_v1.route(R('/<int:user_id>'), methods=['POST'])
 def post(user_id):

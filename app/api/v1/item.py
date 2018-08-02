@@ -1,0 +1,82 @@
+from . import api_v1
+from flask import jsonify, request, url_for
+import json
+from app.utils.res import Res
+from app.utils.file import allowed_file, get_fileRoute
+from werkzeug.utils import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
+from app.models.item import Item
+from app.models import db
+
+def R(r):
+    return '/item' + r
+
+@api_v1.route('/item', methods=['GET'])
+def get_items():
+    try:
+        items = Item.query.order_by(Item.date).all()
+        data = [item.raw() for item in items]
+        print(data)
+        return jsonify(Res(1, 'get items successfully', data).raw())
+    except Exception as e:
+        print(e)
+    return jsonify(Res(0, 'something error').raw())
+
+
+@api_v1.route(R('/<int:user_id>'), methods=['GET'])
+def get_by_userId(user_id):
+    try:
+        items = Item.query.filter_by(user_id=user_id).order_by(Item.date).all()
+        data = [item.raw() for item in items]
+        print(data)
+        return jsonify(Res(1, 'get items successfully', data).raw())
+    except Exception as e:
+        print(e)
+    return jsonify(Res(0, 'something error').raw())
+
+@api_v1.route(R('/<int:item_id>'), methods=['PUT'])
+def edit_item(item_id):
+    item = Item.query.get(item_id)
+    if item is None:
+        return jsonify(Res(0, 'item does not exists').raw())     
+    postData = json.loads(str(request.data, encoding='utf-8'))
+    print('edit_item', postData)
+    if item.edit(postData):
+        return jsonify(Res(1, 'edit item successfully').raw())
+    return jsonify(Res(2, 'something error').raw())
+
+
+@api_v1.route(R('/<int:user_id>'), methods=['POST'])
+def post(user_id):
+    postData = json.loads(str(request.data, encoding='utf-8'))
+    # TODO 数据校验
+    # type, itemName, date, place, img, des, user_id
+    if Item.createItemByPostData(postData, user_id):
+        return jsonify(Res(1, 'post item successfully').raw())
+    return jsonify(Res(0, 'something error').raw())
+
+
+
+# 上传图片，返回图片地址
+@api_v1.route(R('/upload_img'), methods=['POST'])
+def upload_img():
+    print(request.files)
+    if 'img' not in request.files:
+        return jsonify(Res(0, '文件名不正确').json())
+    file = request.files['img']
+    if file.filename == '':
+        return jsonify(Res(0, '请先选择图片').json())
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        try:
+            path = get_fileRoute(filename)
+            file.save(path)
+            ra = path.rsplit('\\',3)
+            r = url_for('static', filename=(ra[-3]+'/'+ra[-2]+'/'+ra[-1]))
+            print(r)
+            data = dict(imgServerPath=r)
+            return jsonify(Res(1,'upload img successfully', data).raw())
+        except RequestEntityTooLarge as e:
+            return jsonify(Res(0, 'the img is too large').raw())
+    else:
+        return jsonify(Res(0, 'invalid extension').raw())

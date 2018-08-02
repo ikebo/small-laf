@@ -41,8 +41,21 @@ class User(db.Model):
             db.session.commit()
             return True
         except Exception as e:
-            print('Exception', e)
+            print('Exception ', e)
 
+        return False
+
+    def update_contact(self, kwargs):
+        try:
+            self.phoneNumber = kwargs['phoneNumber']
+            self.qqNumber = kwargs['qqNumber']
+            self.weixinNumber = kwargs['weixinNumber']
+            db.session.add(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print('Exception ', e)
+        
         return False
 
     def json(self):
@@ -50,6 +63,11 @@ class User(db.Model):
         openId = self.openId
 
         return json.dumps(dict(id=user_id, openId=openId))
+    
+    def raw(self):
+        return dict(id=self.id, avatarUrl=self.avatarUrl, \
+            nickName=self.nickName, phoneNumber=self.phoneNumber, \
+            qqNumber=self.qqNumber, weixinNumber=self.weixinNumber)
 
     def get_contact(self):
         phoneNumber = self.phoneNumber

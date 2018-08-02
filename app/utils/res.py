@@ -12,3 +12,6 @@ class Res():
     def json(self):
         d = dict(code=self.code, msg = self.msg, userData = self.userdata)
         return json.dumps(d)
+
+    def raw(self):
+        return dict(code=self.code, msg = self.msg, userData=self.userdata)

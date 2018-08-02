@@ -57,17 +57,38 @@ def get(code):
 
     return jsonify(res)
 
+@api_v1.route(R('/<int:user_id>'), methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify(Res(0, 'user does not exsits').raw())
+    else:
+        return jsonify(Res(1, 'get user successfully', user.raw()).raw())
 
-@api_v1.route('/avatar/<int:user_id>', methods=['POST'])
+
+@api_v1.route(R('/avatar/<int:user_id>'), methods=['POST'])
 def update_avatar(user_id):
     user = User.query_user_by_id(user_id)
     if user is None:
-        return jsonify(Res(0,'user deos not exist').json())
+        return jsonify(Res(0,'user does not exist').json())
 
     data = json.loads(str(request.data, encoding='utf-8'))
     print(data)
     if user.update_avatar(data):
         userData = user.get_contact()
         return jsonify(Res(1, 'update avatar successfully', userData).json())
+    else:
+        return jsonify(Res(2, 'something error.').json())
+
+@api_v1.route(R('/contact/<int:user_id>'), methods=['POST'])
+def update_contact(user_id):
+    user = User.query_user_by_id(user_id)
+    if user is None:
+        return jsonify(Res(0, 'user does not exist').json())
+    
+    data = json.loads(str(request.data, encoding='utf-8'))
+    print(data)
+    if user.update_contact(data):
+        return jsonify(Res(1, 'update contact successfully').json())
     else:
         return jsonify(Res(2, 'something error.').json())

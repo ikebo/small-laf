@@ -4,6 +4,7 @@
 
 from . import db
 import datetime
+from app import app
 
 class Item(db.Model):
     __tablename__ = 'item'

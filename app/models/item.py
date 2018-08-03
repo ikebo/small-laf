@@ -73,7 +73,7 @@ class Item(db.Model):
 
     def raw(self):
         return dict(id=self.id,itemType=self.type, itemName=self.itemName, \
-            date=self.date.strftime('%Y-%m-%d'), place=self.place, img='http://127.0.0.1:3000' + \
+            date=self.date.strftime('%Y-%m-%d'), place=self.place, img=app.config['SERVER'] + \
             self.img, des=self.des, user_id=self.user_id)
 
     def __repr__(self):

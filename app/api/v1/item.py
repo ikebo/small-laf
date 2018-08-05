@@ -1,5 +1,5 @@
 from . import api_v1
-from flask import jsonify, request, url_for
+from flask import jsonify, request, url_for, Response
 import json
 from app.utils.res import Res
 from app.utils.file import allowed_file, get_fileRoute
@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from app.models.item import Item
 from app.models import db
+import os
 
 def R(r):
     return '/item' + r
@@ -90,3 +91,20 @@ def upload_img():
             return jsonify(Res(0, 'the img is too large').raw())
     else:
         return jsonify(Res(0, 'invalid extension').raw())
+
+@api_v1.route('/static/uploads/<uri>')
+def get_image(uri):
+    imgPath = '../../static/uploads' + uri
+    mdict = {
+        'jpeg': 'image/jpeg',
+        'jpg': 'image/jpeg',
+        'png': 'image/png',
+        'gif': 'image/gif'
+    }
+    mime = mdict[((uri.split('/')[1]).split('.')[1])]
+    if not os.path.exists(imgPath):
+        return jsonify(Res(0, 'image does not exists').raw())
+    with open(imgPath, 'rb') as f:
+        image = f.read()
+    return Response(image, mimetype=mime)
+    

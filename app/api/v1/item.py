@@ -82,29 +82,18 @@ def upload_img():
         try:
             path = get_fileRoute(filename)
             file.save(path)
-            ra = path.rsplit('\\',3)
+            print(path)
+            ra = path.rsplit('/',3)
             r = url_for('static', filename=(ra[-3]+'/'+ra[-2]+'/'+ra[-1]))
             print(r)
             data = dict(imgServerPath=r)
             return jsonify(Res(1,'upload img successfully', data).raw())
         except RequestEntityTooLarge as e:
             return jsonify(Res(0, 'the img is too large').raw())
+        except Exception as e:
+            print(e)
+            return jsonify(Res(0, 'something error').raw())
     else:
         return jsonify(Res(0, 'invalid extension').raw())
 
-@api_v1.route('/static/uploads/<uri>')
-def get_image(uri):
-    imgPath = '../../static/uploads' + uri
-    mdict = {
-        'jpeg': 'image/jpeg',
-        'jpg': 'image/jpeg',
-        'png': 'image/png',
-        'gif': 'image/gif'
-    }
-    mime = mdict[((uri.split('/')[1]).split('.')[1])]
-    if not os.path.exists(imgPath):
-        return jsonify(Res(0, 'image does not exists').raw())
-    with open(imgPath, 'rb') as f:
-        image = f.read()
-    return Response(image, mimetype=mime)
-    
+

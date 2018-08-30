@@ -1,0 +1,92 @@
+{% extends "admin/base.html" %}
+
+{% block title %}用户管理{% endblock %}
+
+{% block head %}
+    {{ super() }}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #container {
+        width: 50%;
+        margin: 2rem auto;
+    }
+
+    .left img {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 3rem;
+    }
+
+    .user {
+        display: flex;
+        flex-flow: row nowrap;
+        margin-bottom:1.5rem;
+    }
+
+    .right {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        font-size: .8em;
+        margin-left: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="container">
+    <div class="user" v-for="user of users">
+        <div class="left">
+            <img :src="user.avatarUrl" />
+        </div>
+
+        <div class="right">
+            <p>
+                <span>手机号: </span>
+                <span>${ user.phoneNumber }</span>
+            </p>
+            <p>
+                <span>QQ号: </span>
+                <span>${ user.qqNumber }</span>
+            </p>
+            <p>
+                <span>微信号: </span>
+                <span>${ user.weixinNumber }</span>
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+let container = new Vue({
+    delimiters: ['${', '}'],
+    el: '#container',
+    created: function() {
+        $.ajax({
+            url: this.server + '/service/api/v1/user',
+            type: 'GET',
+            dataType: 'json',
+            success: (data) => {
+                console.log(data);
+                if (data.code === 1) {
+                    this.users = data.userData;
+                }
+            }
+        })
+    },
+    data: {
+        server: 'http://127.0.0.1:3000',
+        users: null
+    }
+})
+
+</script>
+{% endblock %}
+

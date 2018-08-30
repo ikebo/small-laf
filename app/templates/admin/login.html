@@ -1,0 +1,135 @@
+{% extends "admin/base.html" %}
+
+{% block title %} 登录 {% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <!-- <style  src={{ url_for('static', filename='css/admin/login.css') }}></style> -->
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #container {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-15%);
+    }
+
+    #login-form {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-end;
+        background-color: lightseagreen;
+        padding: 1em;
+        line-height: 2em;
+        border: 1px solid lightblue;
+        border-radius: .3em;
+    }
+
+    #login-form input {
+        height: 1.8em;
+        border-radius: .3em;
+        border: 1px solid lightblue;
+    }
+
+    #form-tip {
+        align-self: center;
+    }
+
+    #form-submit {
+        width: 25%;
+        height: 2em;
+        background-color: lightblue;
+        border: 1px solid transparent;
+        color: #333;
+        font-weight: 900;
+        margin-top: 1em;
+        border-radius: .3em;
+    }
+
+    #errmsg {
+        align-self: center;
+        color: red;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="container">
+    <div id="login-form">
+        <p id='form-tip'>管理员登录</p>
+        <p id="errmsg" v-show="errmsg !== ''">${ errmsg }</p>
+        <div class="form-control">
+            <label for="username">用户名</label>
+            <input type="text" id="username" v-model="username" autofocus />
+        </div>
+
+        <div class="form-control" @keyup.enter='onSubmit'>
+            <label for="password">密码</label>
+            <input type="password" id="password" v-model="password" />
+        </div>
+
+        <button id="form-submit" @click='onSubmit'>登录</button>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+let container = new Vue({
+    delimiters: ['${', '}'],
+    el: '#container',
+    data: {
+        username: '',
+        password: '',
+        errmsg: '',
+        server: 'http://127.0.0.1:3000'
+    },
+    methods: {
+        onSubmit: function() {
+            this.errmsg = '';
+            let data = {
+                username: this.username,
+                password: this.password
+            };
+            $.ajax({
+                url: this.server + '/service/api/v1/admin/login',
+                type: 'POST',
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (data) => {
+                    console.log(data);
+                    if (data.code === 1) {
+                        window.location.href = this.server + '/admin/'
+                    } else {
+                        this.errmsg = '用户名或密码错误!'
+                    }
+                }
+            })
+        }
+    }
+});
+
+let resizeContainer = () => {
+    let screenHeight = $(window).height();
+    $('#container').css('height', screenHeight + 'px');
+};
+
+$(function() {
+    resizeContainer();
+});
+
+$(window).on('resize', () => {
+    resizeContainer();
+});
+
+</script>
+{% endblock %}

@@ -13,6 +13,7 @@ from app.models.user import User
 
 from app.models import db
 
+
 def R(r):
     return '/user' + r
 
@@ -57,6 +58,7 @@ def get(code):
 
     return jsonify(res)
 
+
 @api_v1.route(R('/<int:user_id>'), methods=['GET'])
 def get_user(user_id):
     user = User.query.get(user_id)
@@ -70,7 +72,7 @@ def get_user(user_id):
 def update_avatar(user_id):
     user = User.query_user_by_id(user_id)
     if user is None:
-        return jsonify(Res(0,'user does not exist').json())
+        return jsonify(Res(0, 'user does not exist').json())
 
     data = json.loads(str(request.data, encoding='utf-8'))
     print(data)
@@ -80,15 +82,29 @@ def update_avatar(user_id):
     else:
         return jsonify(Res(2, 'something error.').json())
 
+
 @api_v1.route(R('/contact/<int:user_id>'), methods=['POST'])
 def update_contact(user_id):
     user = User.query_user_by_id(user_id)
     if user is None:
         return jsonify(Res(0, 'user does not exist').json())
-    
+
     data = json.loads(str(request.data, encoding='utf-8'))
     print(data)
     if user.update_contact(data):
         return jsonify(Res(1, 'update contact successfully').json())
     else:
         return jsonify(Res(2, 'something error.').json())
+
+
+@api_v1.route(R(''), methods=['GET'])
+def get_users():
+    try:
+        users = User.query.all()
+        users = [user.raw() for user in users]
+        if users is not None:
+            return jsonify(Res(1, 'get users successfully', users).raw())
+        return jsonify(Res(0, 'get users failed').raw())
+    except Exception as e:
+        print(e)
+        return jsonify(Res(2, 'something error').raw())

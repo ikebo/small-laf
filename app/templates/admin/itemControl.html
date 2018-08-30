@@ -1,0 +1,230 @@
+{% extends "admin/base.html" %}
+
+{% block title %} 物品管理 {% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 50%;
+            margin: 2em auto;
+        }
+
+        .item {
+            display: flex;
+            flex-flow: column nowrap;
+        }
+
+        .top, .bottom {
+            display: flex;
+            flex-flow: row nowrap;
+            margin: 1rem 0;
+        }
+
+        .left img {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 3rem;
+        }
+
+        .right {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-start;
+            margin-left: 1rem;
+            width: calc(100% - 7rem - 4rem);
+        }
+
+        .name {
+            color: lightblue;
+            font-size: .9em;
+        }
+
+        .date {
+            color: #666;
+            font-size: .8em;
+        }
+
+        .type {
+            color: red;
+            font-size: .9em;
+        }
+
+        .des {
+            color: #333;
+            font-size: .8em;
+        }
+
+        .item p {
+            margin-bottom: .2em;
+        }
+
+        .buttons {
+            width: 4rem;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-around;
+        }
+
+        .buttons button {
+            border-style: none;
+            color: #fff;
+            height: 2rem;
+            font-size: 1.1rem;
+            border-radius: .2rem;
+            cursor: pointer;
+        }
+
+        .detailButton {
+            background-color: deepskyblue;
+        }
+
+        .delButton {
+            background-color: orangered;
+        }
+
+        .bottom p span {
+            font-size: .8em;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div v-if="items" id="container">
+        <div class="item" v-if="iset.has(item.id)" v-for="item of items">
+            <div class="top">
+                <div class="left">
+                    <img :src="item.img"/>
+                </div>
+
+                <div class="right">
+                    <p>
+                        <span class="name">${item.itemName}</span>
+                        <span class="date">${item.date}</span>
+                    </p>
+                    <p>
+                        <span v-if="item.itemType" class="type">#招领</span>
+                        <span v-else class="type">#失物</span>
+                        <span class="des">${item.des}</span>
+                    </p>
+                </div>
+
+                <div class="buttons">
+                    <button class="detailButton" @click="onDetailClick(item.id, item.user_id)">查看</button>
+                    <button class="delButton" @click="onDelClick(item.id)">删除</button>
+                </div>
+
+            </div>
+
+
+            <div class="bottom" v-if="mp.has(item.id)">
+                <div class="left">
+                    <img :src="mp.get(item.id).avatarUrl"/>
+                </div>
+
+                <div class="right">
+                    <p>
+                        <span>手机号: </span>
+                        <span>${mp.get(item.id).phoneNumber}</span>
+                    </p>
+                    <p>
+                        <span>QQ号: </span>
+                        <span>${mp.get(item.id).qqNumber}</span>
+                    </p>
+                    <p>
+                        <span>微信号: </span>
+                        <span>${mp.get(item.id).weixinNumber}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        let container = new Vue({
+            delimiters: ['${', '}'],
+            el: '#container',
+            data: {
+                server: 'http://127.0.0.1:3000',
+                items: null,
+                mp: null,
+                iset: null
+            },
+            created: function () {
+                this.mp = new Map();
+                this.iset = new Set();
+                $.ajax({
+                    url: this.server + '/service/api/v1/item',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: (data) => {
+                        console.log(data);
+                        if (data.code === 1) {
+                            this.items = data.userData;
+                            console.log(this.items);
+                            this.items.forEach((item) => {
+                                this.iset.add(item.id);
+                            });
+                        }
+                    }
+                })
+            },
+            methods: {
+                onDetailClick: function (item_id, user_id) {
+                    if (this.mp.has(item_id)) {
+                        let mp = new Map();
+                        this.mp.forEach((value, key) => {
+                            mp.set(key, value);
+                        });
+                        mp.delete(item_id);
+                        this.mp = mp;
+                        return true;
+                    }
+                    $.ajax({
+                        url: this.server + '/service/api/v1/user/' + user_id,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: (data) => {
+                            if (data.code === 1) {
+                                let mp = new Map();
+                                this.mp.forEach((value, key) => {
+                                    mp.set(key, value);
+                                });
+                                mp.set(item_id, data.userData);
+                                this.mp = mp;
+                            }
+                        }
+                    })
+                },
+
+                onDelClick: function (item_id) {
+                    $.ajax({
+                        url: this.server + '/service/api/v1/item/' + item_id,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: (data) => {
+                            let iset = new Set();
+                            this.iset.forEach((value) => {
+                                iset.add(value);
+                            });
+                            iset.delete(item_id);
+                            this.iset = iset;
+                            layer.msg('删除成功');
+                        }
+                    })
+                }
+            }
+        })
+
+    </script>
+{% endblock %}

@@ -1,0 +1,18 @@
+<html>
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src={{ url_for('static', filename='layer/layer.js') }}></script>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+{% block script %}
+
+{% endblock %}
+</html>

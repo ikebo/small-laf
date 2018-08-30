@@ -17,7 +17,6 @@ def get_items():
     try:
         items = Item.query.order_by(Item.date.desc()).all()
         data = [item.raw() for item in items]
-        print(data)
         return jsonify(Res(1, 'get items successfully', data).raw())
     except Exception as e:
         print(e)

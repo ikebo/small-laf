@@ -1,0 +1,87 @@
+{% extends "admin/base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block head %}
+    {{ super() }}
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #container {
+        width: 40%;
+        margin: 3em auto;
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    .control {
+        width: 40%;
+        height: 8rem;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+        margin: .2rem;
+        cursor: pointer;
+    }
+
+    #itemControl {
+        background-color: cornflowerblue;
+    }
+
+    #userControl {
+        background-color: darkorange;
+    }
+
+    #commentControl {
+        background-color: indianred;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="container">
+<div id="itemControl" @click="onItemClick" class="control">
+    物品管理
+</div>
+<div id="userControl" @click="onUserClick" class="control">
+    用户管理
+</div>
+<div id="commentControl" @click="onCommentClick" class="control">
+    评论管理
+</div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    let container = new Vue({
+        delimiters: ['${', '}'],
+        el: '#container',
+        data: {
+            server: 'http://127.0.0.1:3000'
+        },
+        methods: {
+            onItemClick: function() {
+                window.location.href = this.server + '/admin/itemControl';
+            },
+
+            onUserClick: function() {
+                window.location.href = this.server + '/admin/userControl';
+            },
+
+            onCommentClick: function() {
+                window.location.href = this.server + '/admin/commentControl'
+            }
+        }
+    })
+</script>
+{% endblock %}
+
+

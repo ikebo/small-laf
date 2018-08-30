@@ -6,6 +6,8 @@ from app import app
 
 SQLALCHEMY_DATABASE_URI = r'sqlite:///service.sqlite3'
 
+SECRET_KEY = 'whxylaf'
+
 UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads')
 ALLOWED_EXTENSIONS = {'jpg', 'png', 'gif'}
 

@@ -11,11 +11,17 @@ class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(db.SmallInteger)   # 物品类型
     itemName = db.Column(db.String(20)) # 物品名称
-    date = db.Column(db.Date)           # 时间
+    date = db.Column(db.Date)           # 丢失或捡到时间
+    time = db.Column(db.DateTime)       # 发布时间
     place = db.Column(db.String(30))    # 地点
     img = db.Column(db.String(200))     # 图片
     des = db.Column(db.String(200))     # 描述
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    viewNum = db.Column(db.Integer)     # 查看次数
+    goodNum = db.Column(db.Integer)     # 点赞次数
+    commentNum = db.Column(db.Integer)  # 评论次数
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 物品所属用户
+    comments = db.relationship('Comment', backref='item',
+                               lazy='dynamic')  # 物品评论
 
     def __init__(self, type, itemName, date, place, img, des, user_id):
         self.type = type
@@ -25,7 +31,12 @@ class Item(db.Model):
         self.img = img
         self.des = des
         self.user_id = user_id
-    
+
+        self.time = datetime.datetime.now()
+        self.viewNum = 0
+        self.goodNum = 0
+        self.commentNum = 0
+
 
     def edit(self, kwargs):
         try:

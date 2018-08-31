@@ -38,6 +38,9 @@ def get_image(path, uri):
         image = f.read()
     return Response(image, mimetype=mime)
 
+@app.route('/service/')
+def hello():
+    return '<h2>Hello Service</h2>'
 
 # 创建数据库
 from app.models import db

@@ -3,5 +3,6 @@
 /venv/
 /.vscode/
 /.idea/
+/app/static/
 *.ini
 *.socket

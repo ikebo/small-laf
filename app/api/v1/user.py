@@ -27,7 +27,7 @@ def get(code):
     # 返回值
     code = 0
     msg = 'user does not exist, but has been registered.'
-    userdata = None
+    data = None
 
     res = HTTP.get(targetApi)  # dict
     print(res)
@@ -35,7 +35,7 @@ def get(code):
     if 'errcode' in res:
         code = 2
         msg = res['errmsg']
-        res = Res(code, msg, userdata).json()
+        res = Res(code, msg, data).raw()
         return jsonify(res)
 
     # 正常, 获得openId
@@ -52,9 +52,9 @@ def get(code):
         db.session.commit()
 
     print(user.id)
-    userdata = user.json()
+    data = user.raw()
 
-    res = Res(code, msg, userdata).json()
+    res = Res(code, msg, data).raw()
 
     return jsonify(res)
 

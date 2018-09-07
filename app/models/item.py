@@ -23,13 +23,10 @@ class Item(db.Model):
     comments = db.relationship('Comment', backref='item',
                                lazy='dynamic')  # 物品评论
 
-    def __init__(self, type, itemName, date, place, img, des, user_id):
+    def __init__(self, type, srcs, des, user_id):
         self.type = type
-        self.itemName = itemName
-        self.date = date
-        self.place = place
-        self.img = img
         self.des = des
+        self.srcs = srcs
         self.user_id = user_id
 
         self.time = datetime.datetime.now()
@@ -70,12 +67,8 @@ class Item(db.Model):
     def createItemByPostData(kwargs, user_id):
         try:
             print(kwargs)
-            kwargs = kwargs['postData']
-            date_str = kwargs['date']
-            kwargs['date'] = datetime.date(*map(int, date_str.split('-')))
-            item = Item(kwargs['itemType'], kwargs['itemName'],\
-                kwargs['date'], kwargs['place'], \
-                kwargs['img'], kwargs['des'], user_id)
+            item = Item(type=kwargs['type'], des=kwargs['des'],\
+                srcs=kwargs['srcs'], user_id=user_id)
             db.session.add(item)
             db.session.commit()
             return True
@@ -86,7 +79,7 @@ class Item(db.Model):
     def raw(self):
         return dict(id=self.id,itemType=self.type, itemName=self.itemName, \
             date=self.date.strftime('%Y-%m-%d'), place=self.place, img=app.config['SERVER'] + \
-            self.img, des=self.des, user_id=self.user_id)
+            self.img, des=self.des, user_id=self.user_id, user=self.user.seri())
 
     def __repr__(self):
         return '{}: {}'.format(self.itemName, self.type)

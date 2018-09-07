@@ -63,7 +63,11 @@ class User(db.Model):
         openId = self.openId
 
         return json.dumps(dict(id=user_id, openId=openId))
-    
+
+    def seri(self):
+        return dict(id=self.id,avatarUrl=self.avatarUrl,\
+                    nickName=self.nickName,phoneNumber=self.phoneNumber)
+
     def raw(self):
         return dict(id=self.id, avatarUrl=self.avatarUrl, \
             nickName=self.nickName, phoneNumber=self.phoneNumber, \

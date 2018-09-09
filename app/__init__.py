@@ -20,9 +20,11 @@ app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
 @app.route('/service/static/uploads/<path>/<uri>')
 def get_image(path, uri):
-    uri = path + '/' + uri
+    sep = os.path.sep
+    uri = path + sep + uri
     print('uri ', uri)
-    imgPath = '/var/www/laf/app/static/uploads/' + uri
+    imgPath = os.path.abspath('.') + sep + 'app' + sep + 'static' + sep + 'uploads' + sep
+    imgPath = imgPath + uri
     print('imgPath ', imgPath)
     mdict = {
         'jpeg': 'image/jpeg',
@@ -30,7 +32,7 @@ def get_image(path, uri):
         'png': 'image/png',
         'gif': 'image/gif'
     }
-    mime = mdict[((uri.split('/')[1]).split('.')[1])]
+    mime = mdict[((uri.split(sep)[1]).split('.')[1])]
     print('mime ', mime)
     if not os.path.exists(imgPath):
         return jsonify(Res(0, 'image does not exists').raw())

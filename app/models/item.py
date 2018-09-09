@@ -14,7 +14,7 @@ class Item(db.Model):
     date = db.Column(db.Date)           # 丢失或捡到时间
     time = db.Column(db.DateTime)       # 发布时间
     place = db.Column(db.String(30))    # 地点
-    img = db.Column(db.String(200))     # 图片
+    srcs = db.Column(db.String(300))    # 图片
     des = db.Column(db.String(200))     # 描述
     viewNum = db.Column(db.Integer)     # 查看次数
     goodNum = db.Column(db.Integer)     # 点赞次数
@@ -77,9 +77,11 @@ class Item(db.Model):
         return False
 
     def raw(self):
-        return dict(id=self.id,itemType=self.type, itemName=self.itemName, \
-            date=self.date.strftime('%Y-%m-%d'), place=self.place, img=app.config['SERVER'] + \
-            self.img, des=self.des, user_id=self.user_id, user=self.user.seri())
+        if not self.time:
+            self.time = datetime.datetime.now()
+        return dict(id=self.id,type=self.type,des=self.des,\
+                srcs=self.srcs, user_id=self.user_id, \
+                time=self.time.strftime('%m-%d-%H-%M-%S'),user=self.user.seri())
 
     def __repr__(self):
         return '{}: {}'.format(self.itemName, self.type)

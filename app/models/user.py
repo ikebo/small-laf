@@ -42,7 +42,6 @@ class User(db.Model):
             return True
         except Exception as e:
             print('Exception ', e)
-
         return False
 
     def update_contact(self, kwargs):
@@ -55,7 +54,7 @@ class User(db.Model):
             return True
         except Exception as e:
             print('Exception ', e)
-        
+
         return False
 
     def json(self):

@@ -17,7 +17,7 @@ def R(r):
 def get_items():
     try:
         query = Item.query.join(User)
-        items = query.order_by(Item.date.desc()).all()
+        items = query.order_by(Item.time.desc()).all()
         data = [item.raw() for item in items]
         return jsonify(Res(1, 'get items successfully', data).raw())
     except Exception as e:
@@ -28,7 +28,7 @@ def get_items():
 @api_v1.route(R('/<int:user_id>'), methods=['GET'])
 def get_by_userId(user_id):
     try:
-        items = Item.query.filter_by(user_id=user_id).order_by(Item.date.desc()).all()
+        items = Item.query.filter_by(user_id=user_id).order_by(Item.time.desc()).all()
         data = [item.raw() for item in items]
         print(data)
         return jsonify(Res(1, 'get items successfully', data).raw())

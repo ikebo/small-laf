@@ -15,4 +15,5 @@ ALLOWED_EXTENSIONS = {'jpg', 'png', 'gif'}
 MAX_CONTENT_LENGTH = 1 * 1024 * 1024
 
 # SERVER = 'http://120.79.192.233/service'
-SERVER = 'http://127.0.0.1:3000'
+#SERVER = 'http://127.0.0.1:3000'
+SERVER = 'http://www.ikebo.cn:3000/service'

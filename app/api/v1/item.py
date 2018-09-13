@@ -16,8 +16,9 @@ def R(r):
 @api_v1.route('/item', methods=['GET'])
 def get_items():
     try:
+        page = int(request.args.get('page')) # 默认是字符串
         query = Item.query.join(User)
-        items = query.order_by(Item.time.desc()).all()
+        items = query.order_by(Item.time.desc()).offset(page*8).limit(8).all()
         data = [item.raw() for item in items]
         return jsonify(Res(1, 'get items successfully', data).raw())
     except Exception as e:

@@ -69,6 +69,18 @@ def post(user_id):
         return jsonify(Res(1, 'post item successfully').raw())
     return jsonify(Res(0, 'something error').raw())
 
+@api_v1.route(R('/<search_key>'), methods=['GET'])
+def search(search_key):
+    try:
+        page = int(request.args.get('page')) # 默认是字符串
+        key = '%{}%'.format(search_key)
+        query = Item.query.join(User)
+        items = query.filter(Item.des.like(key)).order_by(Item.time.desc()).offset(page*8).limit(8).all()
+        data = [item.raw() for item in items]
+        return jsonify(Res(1, 'search items successfully', data).raw())
+    except Exception as e:
+        print(e)
+    return jsonify(Res(0, 'something error').raw())
 
 
 # 上传图片，返回图片地址

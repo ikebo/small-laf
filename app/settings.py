@@ -11,6 +11,8 @@ SECRET_KEY = 'whxylaf'
 UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads')
 ALLOWED_EXTENSIONS = {'jpg', 'png', 'gif'}
 
+ADVICE_PATH = UPLOAD_FOLDER + os.path.sep + 'advice.txt'
+
 # 最大 1M
 MAX_CONTENT_LENGTH = 1 * 1024 * 1024
 

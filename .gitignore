@@ -4,7 +4,6 @@
 /.vscode/
 /.idea/
 /app/static/
-~/app/static/uploads/admin
 *.ini
 *.socket
 *.crt

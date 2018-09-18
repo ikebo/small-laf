@@ -6,3 +6,9 @@
 /app/static/
 *.ini
 *.socket
+*.crt
+*.key
+/app/settings.py
+*.sqlite3
+/app/admin
+*.md

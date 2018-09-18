@@ -98,7 +98,8 @@ def upload_img():
             path = get_fileRoute(filename)
             file.save(path)
             print(path)
-            ra = path.rsplit('\\',3)
+            sep = os.path.sep
+            ra = path.rsplit(sep,3)
             print('ra', ra)
             r = url_for('static', filename=(ra[-3]+'/'+ra[-2]+'/'+ra[-1]))
             print(r)

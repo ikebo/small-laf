@@ -9,6 +9,7 @@ from app.models.item import Item
 from app.models.user import User
 from app.models import db
 import os
+import urllib
 
 def R(r):
     return '/item' + r
@@ -73,7 +74,7 @@ def post(user_id):
 def search_by_post():
     try:
         data = json.loads(str(request.data, encoding='utf-8'))
-        search_key = data['search_key']
+        search_key = urllib.parse.unquote(data['search_key'])
         page = data['search_page']
         key = '%{}%'.format(search_key)
         print('key', key)

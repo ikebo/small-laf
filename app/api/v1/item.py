@@ -76,6 +76,7 @@ def search_by_post():
         search_key = data['search_key']
         page = data['search_page']
         key = '%{}%'.format(search_key)
+        query = Item.query.join(User)
         items = query.filter(Item.des.like(key)).order_by(Item.time.desc()).offset(page*8).limit(8).all()
         data = [item.raw() for item in items]
         return jsonify(Res(1, 'search items successfully', data).raw())

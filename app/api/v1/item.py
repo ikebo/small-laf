@@ -76,6 +76,7 @@ def search_by_post():
         search_key = data['search_key']
         page = data['search_page']
         key = '%{}%'.format(search_key)
+        print('key', key)
         query = Item.query.join(User)
         items = query.filter(Item.des.like(key)).order_by(Item.time.desc()).offset(page*8).limit(8).all()
         data = [item.raw() for item in items]
@@ -89,6 +90,7 @@ def search(search_key):
     try:
         page = int(request.args.get('page')) # 默认是字符串
         key = '%{}%'.format(search_key)
+        print('key', key)
         query = Item.query.join(User)
         items = query.filter(Item.des.like(key)).order_by(Item.time.desc()).offset(page*8).limit(8).all()
         data = [item.raw() for item in items]

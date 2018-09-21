@@ -45,6 +45,16 @@ class User(db.Model):
 
         return False
 
+    def update_tel(self, tel):
+        try:
+            self.phoneNumber = tel
+            db.session.add(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print('Exception', e)
+        return False
+
     def update_contact(self, kwargs):
         try:
             self.phoneNumber = kwargs['phoneNumber']
@@ -55,7 +65,7 @@ class User(db.Model):
             return True
         except Exception as e:
             print('Exception ', e)
-        
+
         return False
 
     def json(self):

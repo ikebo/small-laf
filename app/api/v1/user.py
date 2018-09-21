@@ -2,17 +2,18 @@
   Created by kebo on 2018/7/28
 """
 import json
-
+import os
 from flask import jsonify
 from flask import request
 
 from app.utils.res import Res
+from app.utils.util import format_advice
 from . import api_v1
 from app.utils.http import HTTP
 from app.models.user import User
 
 from app.models import db
-
+from app import app
 
 def R(r):
     return '/user' + r
@@ -72,15 +73,14 @@ def get_user(user_id):
 def update_avatar(user_id):
     user = User.query_user_by_id(user_id)
     if user is None:
-        return jsonify(Res(0, 'user does not exist').json())
+        return jsonify(Res(0, 'user does not exist').raw())
 
     data = json.loads(str(request.data, encoding='utf-8'))
     print(data)
     if user.update_avatar(data):
-        userData = user.get_contact()
-        return jsonify(Res(1, 'update avatar successfully', userData).json())
+        return jsonify(Res(1, 'update avatar successfully').raw())
     else:
-        return jsonify(Res(2, 'something error.').json())
+        return jsonify(Res(2, 'something error.').raw())
 
 
 @api_v1.route(R('/contact/<int:user_id>'), methods=['POST'])
@@ -105,6 +105,33 @@ def get_users():
         if users is not None:
             return jsonify(Res(1, 'get users successfully', users).raw())
         return jsonify(Res(0, 'get users failed').raw())
+    except Exception as e:
+        print(e)
+        return jsonify(Res(2, 'something error').raw())
+
+@api_v1.route(R('/advice'), methods=['POST'])
+def advice():
+    try:
+        data = json.loads(str(request.data, encoding='utf-8'))
+        user_id = str(data['user_id'])
+        advice = format_advice(user_id, data['advice'])
+        print(advice)
+        with open(app.config['ADVICE_PATH'], 'a') as f:
+            f.write(advice)
+        return jsonify(Res(1, 'post advice successfully').raw())
+    except Exception as e:
+        print(e)
+        return jsonify(Res(2, 'something error').raw())
+
+@api_v1.route(R('/auth'), methods=['POST'])
+def auth():
+    try:
+        data = json.loads(str(request.data, encoding='utf-8'))
+        user_id = str(data['user_id'])
+        stu_id = data['stu_id']
+        stu_pwd = data['stu_pwd']
+        print(user_id, stu_id, stu_pwd)
+        return jsonify(Res(0, '认证待开通').raw())
     except Exception as e:
         print(e)
         return jsonify(Res(2, 'something error').raw())

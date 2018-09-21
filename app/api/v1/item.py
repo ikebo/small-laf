@@ -64,7 +64,6 @@ def post(user_id):
     postData = json.loads(str(request.data, encoding='utf-8'))
     print('postData', postData)
     # TODO 数据校验
-    # type, itemName, date, place, img, des, user_id
     if Item.createItemByPostData(postData, user_id):
         return jsonify(Res(1, 'post item successfully').raw())
     return jsonify(Res(0, 'something error').raw())

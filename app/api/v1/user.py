@@ -5,13 +5,14 @@ import json
 import os
 from flask import jsonify
 from flask import request
+import threading
 
 from app.utils.res import Res
 from app.utils.util import format_advice
 from . import api_v1
 from app.utils.http import HTTP
 from app.models.user import User
-
+from app.utils.em import send_email
 from app.models import db
 from app import app
 
@@ -116,6 +117,8 @@ def advice():
         user_id = str(data['user_id'])
         advice = format_advice(user_id, data['advice'])
         print(advice)
+        send_email_worker = threading.Thread(target=send_email,args=(advice,))
+        send_email_worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
         return jsonify(Res(1, 'post advice successfully').raw())

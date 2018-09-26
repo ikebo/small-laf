@@ -27,7 +27,7 @@ def get(code):
     targetApi = sessionApi.format(code)
 
     # 返回值
-    code = 0
+    code = 1
     msg = 'user does not exist, but has been registered.'
     data = None
 

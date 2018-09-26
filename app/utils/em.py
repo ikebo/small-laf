@@ -18,7 +18,7 @@ def send_email(content):
     msg['Subject'] = Header('LAF用户反馈', 'utf-8').encode()
 
     server = smtplib.SMTP(smtp_server, 25)
-    # server.set_debuglevel(1)
+    server.set_debuglevel(1)
     server.login(sender_user,sender_pwd)
     server.sendmail(sender_user, [to_addr], msg.as_string())
     server.quit()

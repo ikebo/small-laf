@@ -15,7 +15,7 @@ from app.api.v1 import api_v1 as api_v1_blueprint
 app.register_blueprint(api_v1_blueprint, url_prefix='/service/api/v1')
 
 from app.admin import admin as admin_blueprint
-app.register_blueprint(admin_blueprint, url_prefix='/admin')
+app.register_blueprint(admin_blueprint, url_prefix='/service/admin')
 
 
 @app.route('/service/static/uploads/<path>/<uri>')

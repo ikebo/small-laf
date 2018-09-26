@@ -101,7 +101,7 @@
         <div class="item" v-if="iset.has(item.id)" v-for="item of items">
             <div class="top">
                 <div class="left">
-                    <img :src="item.srcs.split('|')[0]"/>
+                    <img :src="service + item.srcs.split('|')[0]"/>
                 </div>
 
                 <div class="right">

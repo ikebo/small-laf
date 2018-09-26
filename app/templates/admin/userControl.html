@@ -49,7 +49,7 @@
 
 {% block content %}
 <div id="container">
-    <div class="user" v-if="user.avatarUrl" v-for="user of users">
+    <div class="user" v-for="user of users">
         <div class="left">
             <img :src="user.avatarUrl" />
         </div>
@@ -85,7 +85,7 @@ let container = new Vue({
         })
     },
     data: {
-        server: 'https://ikebo.cn/service',
+        server: Config['server'],
         users: null
     },
     methods: {

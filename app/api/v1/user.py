@@ -139,3 +139,14 @@ def auth():
     except Exception as e:
         print(e)
         return jsonify(Res(2, 'something error').raw())
+
+
+@api_v1.route(R('/<int:user_id>'), methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify(Res(0, 'user does not exists').raw())
+    if user.delete():
+        return jsonify(Res(1, 'delete user successfully').raw())
+    else:
+        return jsonify(Res(2, 'something error').raw())

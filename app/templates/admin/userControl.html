@@ -11,7 +11,7 @@
     }
 
     #container {
-        width: 50%;
+        width: 40%;
         margin: 2rem auto;
     }
 
@@ -24,39 +24,42 @@
     .user {
         display: flex;
         flex-flow: row nowrap;
+        justify-content: space-around;
         margin-bottom:1.5rem;
     }
 
-    .right {
+    .middle {
         display: flex;
         flex-flow: column nowrap;
         justify-content: space-around;
         font-size: .8em;
         margin-left: 1.5rem;
     }
+
+    .middle button{
+        color: #eee;
+        width: 4em;
+        height: 2em;
+        background-color: #92B8B1;
+        border-style: none;
+        border-radius: 3px;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div id="container">
-    <div class="user" v-for="user of users">
+    <div class="user" v-if="user.avatarUrl" v-for="user of users">
         <div class="left">
             <img :src="user.avatarUrl" />
         </div>
 
-        <div class="right">
+        <div class="middle">
             <p>
                 <span>手机号: </span>
                 <span>${ user.phoneNumber }</span>
             </p>
-            <p>
-                <span>QQ号: </span>
-                <span>${ user.qqNumber }</span>
-            </p>
-            <p>
-                <span>微信号: </span>
-                <span>${ user.weixinNumber }</span>
-            </p>
+            <button type="button" @click="onDel" :data-id="user.id">删除</button>
         </div>
 
     </div>
@@ -70,23 +73,41 @@ let container = new Vue({
     el: '#container',
     created: function() {
         $.ajax({
-            url: this.server + '/service/api/v1/user',
+            url: this.server + '/api/v1/user',
             type: 'GET',
             dataType: 'json',
             success: (data) => {
                 console.log(data);
                 if (data.code === 1) {
-                    this.users = data.userData;
+                    this.users = data.data;
                 }
             }
         })
     },
     data: {
-        server: 'http://127.0.0.1:3000',
+        server: 'http://127.0.0.1:3000/service',
         users: null
+    },
+    methods: {
+        onDel (e) {
+            console.log(e.target.dataset.id);
+            let user_id = e.target.dataset.id;
+            $.ajax({
+                url: this.server + '/api/v1/user/' + user_id,
+                type: 'DELETE',
+                dataType: 'json',
+                success: (data) => {
+                    console.log(data)
+                    if (data.code == 1) {
+                        layer.msg('删除成功')
+                    } else {
+                        layer.msg('删除失败')
+                    }
+                }
+            })
+        }
     }
 })
 
 </script>
 {% endblock %}
-

@@ -10,5 +10,4 @@
 *.key
 /app/settings.py
 *.sqlite3
-/app/admin
 *.md

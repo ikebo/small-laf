@@ -6,6 +6,7 @@ import os
 from flask import jsonify
 from flask import request
 import threading
+from multiprocessing import Process
 
 from app.utils.res import Res
 from app.utils.util import format_advice
@@ -117,8 +118,13 @@ def advice():
         user_id = str(data['user_id'])
         advice = format_advice(user_id, data['advice'])
         print(advice)
-        send_email_worker = threading.Thread(target=send_email,args=(advice,))
-        send_email_worker.start()
+	#send_email(advice)
+        #send_email_worker = threading.Thread(target=send_email,args=(advice,))
+        #send_email_worker.setDaemon(False)
+        #send_email_worker.start()
+        #send_email_worker.join()
+        worker = Process(target=send_email, args=(advice,))
+        worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
         return jsonify(Res(1, 'post advice successfully').raw())

@@ -5,14 +5,21 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-    <script src={{ url_for('static', filename='layer/layer.js') }}></script>
+    <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
+    {#    <script src={{ url_for('static', filename='layer/layer.js') }}></script>#}
     {% endblock %}
 </head>
 <body>
 {% block content %}
 {% endblock %}
 </body>
-{% block script %}
 
+<script>
+const Config =  {
+    server: 'http://127.0.0.1:3000/service',
+    {#server: 'https://ikebo.cn/service'#}
+}
+</script>
+{% block script %}
 {% endblock %}
 </html>

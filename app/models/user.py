@@ -42,7 +42,26 @@ class User(db.Model):
             return True
         except Exception as e:
             print('Exception ', e)
+        return False
 
+    def update_tel(self, tel):
+        try:
+            self.phoneNumber = tel
+            db.session.add(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print('Exception', e)
+        return False
+
+    def update_tel(self, tel):
+        try:
+            self.phoneNumber = tel
+            db.session.add(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print('Exception', e)
         return False
 
     def update_contact(self, kwargs):
@@ -55,7 +74,16 @@ class User(db.Model):
             return True
         except Exception as e:
             print('Exception ', e)
-        
+
+        return False
+
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
         return False
 
     def json(self):
@@ -63,7 +91,11 @@ class User(db.Model):
         openId = self.openId
 
         return json.dumps(dict(id=user_id, openId=openId))
-    
+
+    def seri(self):
+        return dict(id=self.id,avatarUrl=self.avatarUrl,\
+                    nickName=self.nickName,phoneNumber=self.phoneNumber)
+
     def raw(self):
         return dict(id=self.id, avatarUrl=self.avatarUrl, \
             nickName=self.nickName, phoneNumber=self.phoneNumber, \

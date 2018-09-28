@@ -4,14 +4,14 @@
 import json
 
 class Res():
-    def __init__(self, code, msg, userdata=None):
+    def __init__(self, code, msg, data=None):
         self.code = code
         self.msg = msg
-        self.userdata = userdata
+        self.data = data
 
     def json(self):
-        d = dict(code=self.code, msg = self.msg, userData = self.userdata)
+        d = dict(code=self.code, msg = self.msg, data = self.data)
         return json.dumps(d)
 
     def raw(self):
-        return dict(code=self.code, msg = self.msg, userData=self.userdata)
+        return dict(code=self.code, msg = self.msg, data=self.data)

@@ -3,5 +3,12 @@
 /venv/
 /.vscode/
 /.idea/
+/app/static/uploads/*
+!/app/static/uploads/*.txt
 *.ini
 *.socket
+*.crt
+*.key
+/app/settings.py
+*.sqlite3
+*.md

@@ -90,7 +90,7 @@ let container = new Vue({
         username: '',
         password: '',
         errmsg: '',
-        server: 'http://127.0.0.1:3000'
+        server: Config['server']
     },
     methods: {
         onSubmit: function() {
@@ -100,7 +100,7 @@ let container = new Vue({
                 password: this.password
             };
             $.ajax({
-                url: this.server + '/service/api/v1/admin/login',
+                url: this.server + '/api/v1/admin/login',
                 type: 'POST',
                 data: JSON.stringify(data),
                 dataType: 'json',

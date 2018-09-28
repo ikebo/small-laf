@@ -5,13 +5,15 @@ import json
 import os
 from flask import jsonify
 from flask import request
+import threading
+from multiprocessing import Process
 
 from app.utils.res import Res
 from app.utils.util import format_advice
 from . import api_v1
 from app.utils.http import HTTP
 from app.models.user import User
-
+from app.utils.em import send_email
 from app.models import db
 from app import app
 
@@ -26,7 +28,7 @@ def get(code):
     targetApi = sessionApi.format(code)
 
     # 返回值
-    code = 0
+    code = 1
     msg = 'user does not exist, but has been registered.'
     data = None
 
@@ -116,6 +118,11 @@ def advice():
         user_id = str(data['user_id'])
         advice = format_advice(user_id, data['advice'])
         print(advice)
+        # send_email_worker = threading.Thread(target=send_email, args=(advice,))
+        # send_email_worker.start()
+        # send_email_worker.join()
+        # worker = Process(target=send_email, args=(advice,))
+        # worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
         return jsonify(Res(1, 'post advice successfully').raw())
@@ -134,4 +141,15 @@ def auth():
         return jsonify(Res(0, '认证待开通').raw())
     except Exception as e:
         print(e)
+        return jsonify(Res(2, 'something error').raw())
+
+
+@api_v1.route(R('/<int:user_id>'), methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify(Res(0, 'user does not exists').raw())
+    if user.delete():
+        return jsonify(Res(1, 'delete user successfully').raw())
+    else:
         return jsonify(Res(2, 'something error').raw())

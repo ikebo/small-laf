@@ -118,10 +118,13 @@ def advice():
         user_id = str(data['user_id'])
         advice = format_advice(user_id, data['advice'])
         print(advice)
-        worker = Process(target=send_email, args=(advice,))
-        worker.start()
+        send_email_worker = threading.Thread(target=send_email, args=(advice,))
+        send_email_worker.start()
+        # worker = Process(target=send_email, args=(advice,))
+        # worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
+        send_email_worker.join()
         return jsonify(Res(1, 'post advice successfully').raw())
     except Exception as e:
         print(e)

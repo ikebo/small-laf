@@ -120,11 +120,11 @@ def advice():
         print(advice)
         send_email_worker = threading.Thread(target=send_email, args=(advice,))
         send_email_worker.start()
+        send_email_worker.join()
         # worker = Process(target=send_email, args=(advice,))
         # worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
-        # send_email_worker.join()
         return jsonify(Res(1, 'post advice successfully').raw())
     except Exception as e:
         print(e)

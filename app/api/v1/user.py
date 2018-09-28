@@ -124,7 +124,7 @@ def advice():
         # worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
-        send_email_worker.join()
+        # send_email_worker.join()
         return jsonify(Res(1, 'post advice successfully').raw())
     except Exception as e:
         print(e)

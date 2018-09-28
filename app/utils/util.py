@@ -1,4 +1,3 @@
-
 import datetime
 
 def format_advice(user_id, advice):

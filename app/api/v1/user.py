@@ -121,8 +121,8 @@ def advice():
         # send_email_worker = threading.Thread(target=send_email, args=(advice,))
         # send_email_worker.start()
         # send_email_worker.join()
-        worker = Process(target=send_email, args=(advice,))
-        worker.start()
+        # worker = Process(target=send_email, args=(advice,))
+        # worker.start()
         with open(app.config['ADVICE_PATH'], 'a') as f:
             f.write(advice)
         return jsonify(Res(1, 'post advice successfully').raw())

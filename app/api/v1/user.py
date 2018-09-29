@@ -24,7 +24,7 @@ def R(r):
 @api_v1.route(R('/<code>'), methods=['GET'])
 def get(code):
     # 获得session_key， 用户的openId
-    sessionApi = 'https://api.weixin.qq.com/sns/jscode2session?appid=wx597fa5ad3a318789&secret=74bccd487ac5429f98b7bc669366de53&js_code={}&grant_type=authorization_code'
+    sessionApi = 'https://api.weixin.qq.com/sns/jscode2session?appid=wx597fa5ad3a318789&secret=3cbe23dd818482327192b5091f0134a3&js_code={}&grant_type=authorization_code'
     targetApi = sessionApi.format(code)
 
     # 返回值

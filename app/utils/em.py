@@ -25,5 +25,5 @@ def send_email(content):
 
 sender_user = 'k_1043@126.com'
 sender_pwd = app.config['EMAIL_PWD']
-to_addr = 'k_1043@126.com'
+to_addr = 'k_1043@126.com, 15387062910@qq.com'
 smtp_server = 'smtp.126.com'

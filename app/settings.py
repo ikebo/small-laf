@@ -19,3 +19,9 @@ MAX_CONTENT_LENGTH = 1 * 1024 * 1024
 SERVER = 'https://ikebo.cn/service'
 
 EMAIL_PWD = 'yang4ever'
+
+APP_ID = 'wx07be1dea85bf1254'
+APP_SECRET = 'b1dad89211712612fc25cc498bc9efc5'
+
+# appid = 'wx597fa5ad3a318789'
+# appsecret = '3cbe23dd818482327192b5091f0134a3'

@@ -6,9 +6,13 @@ from flask import Flask, jsonify, Response
 from app.utils.res import Res
 import os
 
+from flask_cache import Cache
 app = Flask(__name__)
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+cache.init_app(app)   # 注册缓存
 
 app.config.from_object('app.settings')
+
 
 # 注册蓝图
 from app.api.v1 import api_v1 as api_v1_blueprint

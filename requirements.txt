@@ -4,6 +4,7 @@ chardet==3.0.4
 click==6.7
 colorama==0.3.9
 Flask==1.0.2
+Flask-Cache==0.13.1
 Flask-SQLAlchemy==2.3.2
 idna==2.7
 isort==4.3.4

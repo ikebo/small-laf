@@ -126,7 +126,7 @@
 
             <div class="bottom" v-if="mp.has(item.id)">
                 <div class="left">
-                    <img :src="mp.get(item.id).avatarUrl"/>
+                    <img :src="mp.get(item.id).avatarUrl ? mp.get(item.id).avatarUrl : default_avatar "/>
                 </div>
 
                 <div class="right">

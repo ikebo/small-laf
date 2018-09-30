@@ -51,7 +51,7 @@
 <div id="container">
     <div class="user" v-for="user of users">
         <div class="left">
-            <img :src="user.avatarUrl" />
+            <img :src="user.avatarUrl ? user.avatarUrl : default_avatar" />
         </div>
 
         <div class="middle">
@@ -86,6 +86,7 @@ let container = new Vue({
     },
     data: {
         server: Config['server'],
+        default_avatar: Config['default_avatar'],
         users: null
     },
     methods: {

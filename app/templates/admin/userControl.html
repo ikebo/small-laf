@@ -51,7 +51,7 @@
 <div id="container">
     <div class="user" v-for="user of users">
         <div class="left">
-            <img :src="user.avatarUrl ? user.avatarUrl : default_avatar" />
+            <img :src="(user && user.avatarUrl) ? user.avatarUrl : default_avatar" />
         </div>
 
         <div class="middle">

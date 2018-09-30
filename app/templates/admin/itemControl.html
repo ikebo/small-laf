@@ -101,7 +101,7 @@
         <div class="item" v-if="iset.has(item.id)" v-for="item of items">
             <div class="top">
                 <div class="left">
-                    <img :src="server + item.srcs.split('|')[0]"/>
+                    <img :src="static_server + item.srcs.split('|')[0]"/>
                 </div>
 
                 <div class="right">
@@ -148,6 +148,7 @@
             el: '#container',
             data: {
                 server: Config['server'],
+                static_server: Config['static_server'],
                 items: null,
                 mp: null,
                 iset: null

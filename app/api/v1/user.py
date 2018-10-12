@@ -8,6 +8,7 @@ from flask import request
 import threading
 from multiprocessing import Process
 
+from app.utils.decorators import log
 from app.utils.res import Res
 from app.utils.util import format_advice
 from . import api_v1
@@ -16,12 +17,14 @@ from app.models.user import User
 from app.utils.em import send_email
 from app.models import db
 from app import app
+from app import cache
 
 def R(r):
     return '/user' + r
 
 
 @api_v1.route(R('/<code>'), methods=['GET'])
+@log
 def get(code):
     # 获得session_key， 用户的openId
     sessionApi = 'https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code'
@@ -63,6 +66,7 @@ def get(code):
 
 
 @api_v1.route(R('/<int:user_id>'), methods=['GET'])
+@log
 def get_user(user_id):
     user = User.query.get(user_id)
     if user is None:
@@ -72,6 +76,7 @@ def get_user(user_id):
 
 
 @api_v1.route(R('/avatar/<int:user_id>'), methods=['POST'])
+@log
 def update_avatar(user_id):
     user = User.query_user_by_id(user_id)
     if user is None:
@@ -100,6 +105,7 @@ def update_contact(user_id):
 
 
 @api_v1.route(R(''), methods=['GET'])
+@log
 def get_users():
     try:
         users = User.query.all()
@@ -112,6 +118,7 @@ def get_users():
         return jsonify(Res(2, 'something error').raw())
 
 @api_v1.route(R('/advice'), methods=['POST'])
+@log
 def advice():
     try:
         data = json.loads(str(request.data, encoding='utf-8'))
@@ -131,6 +138,7 @@ def advice():
         return jsonify(Res(2, 'something error').raw())
 
 @api_v1.route(R('/auth'), methods=['POST'])
+@log
 def auth():
     try:
         data = json.loads(str(request.data, encoding='utf-8'))
@@ -145,6 +153,7 @@ def auth():
 
 
 @api_v1.route(R('/<int:user_id>'), methods=['DELETE'])
+@log
 def delete_user(user_id):
     user = User.query.get(user_id)
     if user is None:

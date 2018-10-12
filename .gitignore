@@ -11,4 +11,4 @@
 *.key
 !/app/settings.py
 *.sqlite3
-*.md
+api.md

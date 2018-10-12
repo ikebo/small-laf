@@ -77,7 +77,7 @@ def post(user_id):
     # TODO 数据校验
     user = User.query.get(user_id)
     if Item.createItemByPostData(postData, user_id) and user.update_tel(postData['tel']):
-        cache.delete_like(cache, 'get_item')
+        cache.delete_like(cache, 'get_item')   # 有新增数据，删除item相关缓存
         return jsonify(Res(1, 'post item successfully').raw())
     return jsonify(Res(0, 'something error').raw())
 
@@ -85,6 +85,7 @@ def post(user_id):
 @api_v1.route(R('/search'), methods=['POST'])
 @log
 def search_by_post():
+    # TODO  缓存
     try:
         data = json.loads(str(request.data, encoding='utf-8'))
         search_key = urllib.parse.unquote(data['search_key'])
@@ -103,6 +104,7 @@ def search_by_post():
 @api_v1.route(R('/<search_key>'), methods=['GET'])
 @log
 def search(search_key):
+    # TODO 缓存
     try:
         page = int(request.args.get('page'))  # 默认是字符串
         key = '%{}%'.format(search_key)

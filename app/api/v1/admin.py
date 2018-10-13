@@ -4,8 +4,8 @@ from flask import request, jsonify, session
 
 from app.utils.decorators import log
 from app.utils.res import Res
+from app.utils.util import admin_auth
 from . import api_v1
-from app import app
 
 def R(r):
     return '/admin' + r
@@ -14,7 +14,7 @@ def R(r):
 @log
 def login():
     data = json.loads(str(request.data, encoding='utf-8'))
-    if data.get('username', None) == 'admin' and data.get('password', None) == app.config['SECRET_KEY']:
+    if admin_auth(data):
         session['admin'] = True
         return jsonify(Res(1, 'login successfully').raw())
     else:

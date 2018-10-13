@@ -4,11 +4,22 @@
 import os
 from datetime import datetime
 from app import app
-from flask import request, Response, url_for
+from flask import request, Response, url_for, session, redirect
 from functools import wraps
 import json
 
 from app.utils.file import get_current_date
+
+
+# login_required 装饰器
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not session.get('admin', None):
+            return redirect(url_for('.login'))
+        return func(*args, **kwargs)
+    return wrapper
+
 
 # log 装饰器, 状态不正常才打log
 def log(func):

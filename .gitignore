@@ -9,6 +9,6 @@
 *.socket
 *.crt
 *.key
-!/app/settings.py
+/app/settings.py
 *.sqlite3
 api.md

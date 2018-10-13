@@ -5,9 +5,6 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src={{ url_for('static', filename='js/jquery.js') }}></script>
-    {#    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>#}
-    <!-- <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script> -->
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/layer/2.3/layer.js" charset="utf-8"></script>#}
     <script src={{ url_for('static', filename='layer/layer.js') }}></script>
     {% endblock %}
 </head>
@@ -18,8 +15,7 @@
 
 <script>
 const Config =  {
-    //server: 'http://127.0.0.1:3000/service',
-    server: 'https://ikebo.cn/service',
+    server: '{{ request.host_url + 'service' }}',
     static_server: 'https://ikebo.cn',
     default_avatar: 'https://ikebo.cn/static/uploads/admin/default_avatar.jpg'
 }

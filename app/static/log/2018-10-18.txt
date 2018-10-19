@@ -1,0 +1,21 @@
+[10-18 12:36:35] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-18 12:36:45] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-18 12:36:48] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-18 12:36:51] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-18 17:54:21] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-18 20:24:36] GET /service/api/v1/user/081USBMr0DaUQe1irVKr0AyHMr0USBMW?
+code:2  msg:invalid code, hints: [ req_id: tka07a04764106 ]
+
+[10-18 20:26:07] GET /service/api/v1/item/NaN?
+code:0  msg:something error
+

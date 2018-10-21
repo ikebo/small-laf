@@ -2,20 +2,15 @@
   Created by kebo on 2018/7/28
 """
 import json
-import os
 from flask import jsonify
 from flask import request
-import threading
-from multiprocessing import Process
-
 from app.utils.res import Res
-from app.utils.util import format_advice
+from app.utils.advice import format_advice, get_advice_route
 from . import api_v1
 from app.utils.http import HTTP
 from app.models.user import User
-from app.utils.em import send_email
 from app.models import db
-from app import app
+
 
 def R(r):
     return '/user' + r
@@ -111,24 +106,21 @@ def get_users():
         print(e)
         return jsonify(Res(2, 'something error').raw())
 
+
 @api_v1.route(R('/advice'), methods=['POST'])
 def advice():
     try:
         data = json.loads(str(request.data, encoding='utf-8'))
         user_id = str(data['user_id'])
-        advice = format_advice(user_id, data['advice'])
-        print(advice)
-        # send_email_worker = threading.Thread(target=send_email, args=(advice,))
-        # send_email_worker.start()
-        # send_email_worker.join()
-        # worker = Process(target=send_email, args=(advice,))
-        # worker.start()
-        with open(app.config['ADVICE_PATH'], 'a') as f:
-            f.write(advice)
+        fmt_advice = format_advice(user_id, data['advice'])
+        advice_route = get_advice_route()
+        with open(advice_route, 'a') as f:
+            f.write(fmt_advice)
         return jsonify(Res(1, 'post advice successfully').raw())
     except Exception as e:
         print(e)
         return jsonify(Res(2, 'something error').raw())
+
 
 @api_v1.route(R('/auth'), methods=['POST'])
 def auth():

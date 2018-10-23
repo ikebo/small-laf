@@ -169,19 +169,19 @@ def get_personal():
 @api_v1.route(R('/auth'), methods=['POST'])
 def auth():
     try:
-        data = json.loads(str(request.data, encoding='utf-8'))
-        print('..')
-        user_id = data['user_id']
-        print('..', data)
-        stu_id = data['stu_id']
-        stu_pwd = data['stu_pwd']
-        print('...')
-        # stu_id = request.form['stu_id']
-        # stu_pwd = request.form['stu_pwd']
+        # data = json.loads(str(request.data, encoding='utf-8'))
+        # print('..')
+        # user_id = data['user_id']
+        # print('..', data)
+        # stu_id = data['stu_id']
+        # stu_pwd = data['stu_pwd']
+        # print('...')
+        stu_id = request.form['stu_id']
+        stu_pwd = request.form['stu_pwd']
         if request_auth(stu_id, stu_pwd):
-            user = User.query.get(user_id)
-            if user.set_auth():
-                return jsonify(Res(1, 'success').raw())
+            # user = User.query.get(user_id)
+            # if user.set_auth():
+            return jsonify(Res(1, 'success').raw())
         else:
             return jsonify(Res(0, '密码错误').raw())
     except Exception as e:

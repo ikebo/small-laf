@@ -27,8 +27,8 @@ headers = {
 	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
 }
 
-brower = webdriver.PhantomJS()
-brower.implicitly_wait(5)
+# brower = webdriver.PhantomJS()
+# brower.implicitly_wait(5)
 
 # 获取学生课表信息
 def get_course_info(username, password):

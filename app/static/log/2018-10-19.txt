@@ -1,0 +1,15 @@
+[10-19 18:28:54] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-19 18:28:58] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-19 18:28:59] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-19 18:29:01] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+
+[10-19 20:16:06] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+

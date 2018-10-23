@@ -1,6 +1,23 @@
+<<<<<<< HEAD
 [10-23 15:22:16] GET /service/api/v1/user/023cDdIE1ey6X10pJBKE1cPaIE1cDdIE?
 code:2  msg:invalid code, hints: [ req_id: cXuBMa03362064 ]
 
 [10-23 19:42:31] POST /service/api/v1/user/auth?
 code:0  msg:认证待开通
+=======
+[10-23 16:03:42] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-23 17:32:13] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-23 17:32:52] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-23 17:32:53] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-23 19:47:40] POST /service/api/v1/user/auth?
+code:2  msg:something error
+>>>>>>> 19b25c90adc78dfa604d447c894c4e843067f83d
 

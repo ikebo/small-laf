@@ -33,6 +33,16 @@ class User(db.Model):
         user = User.query.filter_by(id=user_id).first()
         return user
 
+    def set_auth(self):
+        try:
+            self.qqNumber = '1'
+            db.session.add(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+        return False
+
     def update_avatar(self, kwargs):
         try:
             self.avatarUrl = kwargs['avatarUrl']

@@ -1,3 +1,65 @@
+<<<<<<< HEAD
 [10-22 20:34:26] POST /service/api/v1/user/auth?
 code:0  msg:认证待开通
+=======
+[10-22 22:31:12] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:31:26] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:32:24] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:35:34] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:24] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:26] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:26] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:27] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:27] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:28] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:28] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:29] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:29] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:41] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:42] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:42] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:36:43] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:42:58] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:45:37] POST /service/api/v1/user/course?
+code:2  msg:something error
+
+[10-22 22:48:20] POST /service/api/v1/user/course?
+code:2  msg:something error
+>>>>>>> 19b25c90adc78dfa604d447c894c4e843067f83d
 

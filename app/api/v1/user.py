@@ -183,7 +183,7 @@ def auth():
             if user.set_auth():
                 return jsonify(Res(1, 'success').raw())
         else:
-            return jsonify(Res(0, 'fail').raw())
+            return jsonify(Res(0, '密码错误').raw())
     except Exception as e:
         print(e)
         return jsonify(Res(2, 'something error').raw())

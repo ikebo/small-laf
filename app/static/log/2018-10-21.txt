@@ -1,0 +1,15 @@
+[10-21 00:03:24] POST /service/api/v1/user/auth?
+code:0  msg:fail
+
+[10-21 00:03:31] POST /service/api/v1/user/auth?
+code:0  msg:fail
+
+[10-21 13:57:30] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-21 13:58:08] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-21 14:10:39] POST /service/api/v1/user/auth?
+code:2  msg:something error
+

@@ -1,0 +1,42 @@
+[10-20 23:46:10] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:47:21] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:48:14] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:48:57] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:49:01] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:50:07] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:50:52] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:51:12] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:52:04] POST /service/api/v1/user/auth?
+code:2  msg:something error
+
+[10-20 23:52:57] POST /service/api/v1/user/auth?
+code:0  msg:fail
+
+[10-20 23:53:43] POST /service/api/v1/user/auth?
+code:0  msg:fail
+
+[10-20 23:53:48] POST /service/api/v1/user/auth?
+code:0  msg:fail
+
+[10-20 23:53:50] POST /service/api/v1/user/auth?
+code:0  msg:fail
+
+[10-20 23:53:51] POST /service/api/v1/user/auth?
+code:0  msg:fail
+

@@ -4,7 +4,7 @@
 import json
 import os
 from flask import jsonify
-from flask import request
+from flask import request, make_response
 import threading
 from multiprocessing import Process
 
@@ -18,6 +18,7 @@ from app.utils.em import send_email
 from app.models import db
 from app import app
 from app import cache
+from app.utils.http import request_auth, get_personal_info, get_course_info
 
 def R(r):
     return '/user' + r
@@ -137,20 +138,65 @@ def advice():
         print(e)
         return jsonify(Res(2, 'something error').raw())
 
-@api_v1.route(R('/auth'), methods=['POST'])
+
+@api_v1.route(R('/course'), methods=['POST'])
 @log
+def get_course():
+    try:
+        username = request.form['stu_id']
+        password = request.form['stu_pwd']
+        res = get_course_info(username, password)
+        if not res:
+            return jsonify(Res(0, 'fail').raw())
+        return jsonify(Res(1, 'success', res).raw())
+    except Exception as e:
+        return jsonify(Res(2, 'something error').raw())
+
+@api_v1.route(R('/personal'), methods=['POST'])
+@log
+def get_personal():
+    try:
+        username = request.form['stu_id']
+        password = request.form['stu_pwd']
+        res = get_personal_info(username, password)
+        if not res:
+            return jsonify(Res(0, 'fail').raw())
+        return jsonify(Res(1, 'success', res).raw())
+    except Exception as e:
+        return jsonify(Res(2, 'something error').raw())
+
+
+@api_v1.route(R('/auth'), methods=['POST'])
 def auth():
     try:
         data = json.loads(str(request.data, encoding='utf-8'))
-        user_id = str(data['user_id'])
+        print('..')
+        user_id = data['user_id']
+        print('..', data)
         stu_id = data['stu_id']
         stu_pwd = data['stu_pwd']
-        print(user_id, stu_id, stu_pwd)
-        return jsonify(Res(0, '认证待开通').raw())
+        print('...')
+        # stu_id = request.form['stu_id']
+        # stu_pwd = request.form['stu_pwd']
+        if request_auth(stu_id, stu_pwd):
+            user = User.query.get(user_id)
+            if user.set_auth():
+                return jsonify(Res(1, 'success').raw())
+        else:
+            return jsonify(Res(0, 'fail').raw())
     except Exception as e:
         print(e)
         return jsonify(Res(2, 'something error').raw())
 
+
+@api_v1.route(R('/wxauth'), methods=['GET'])
+@log
+def wxauth():
+    code = request.args.get('code', 'fail to get code')
+    response = make_response(code, 200)
+    response.headers['Content-type'] = 'text/plain'
+    return response
+    
 
 @api_v1.route(R('/<int:user_id>'), methods=['DELETE'])
 @log

@@ -221,4 +221,4 @@ def request_auth(username, password):
 	lt = re.search(lt_pattern, res.text).group(1)
 	data['lt'] = lt
 	pr = requests.post(url, data=data, headers=headers)
-	return 'success' in pr.text
+	return '用户登录' not in pq(pr.text)('title').text()

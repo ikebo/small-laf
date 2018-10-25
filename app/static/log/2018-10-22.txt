@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+[10-22 20:34:26] POST /service/api/v1/user/auth?
+code:0  msg:认证待开通
+=======
 [10-22 22:31:12] POST /service/api/v1/user/course?
 code:2  msg:something error
 
@@ -57,4 +61,5 @@ code:2  msg:something error
 
 [10-22 22:48:20] POST /service/api/v1/user/course?
 code:2  msg:something error
+>>>>>>> 19b25c90adc78dfa604d447c894c4e843067f83d
 

@@ -23,10 +23,11 @@ class Item(db.Model):
     comments = db.relationship('Comment', backref='item',
                                lazy='dynamic')  # 物品评论
 
-    def __init__(self, type, srcs, des, user_id):
+    def __init__(self, type, srcs, des, place, user_id):
         self.type = type
         self.des = des
         self.srcs = srcs
+        self.place = place
         self.user_id = user_id
 
         self.time = datetime.datetime.now()
@@ -68,7 +69,7 @@ class Item(db.Model):
         try:
             print(kwargs)
             item = Item(type=kwargs['type'], des=kwargs['des'],\
-                srcs=kwargs['srcs'], user_id=user_id)
+                srcs=kwargs['srcs'], place=kwargs['place'], user_id=user_id)
             db.session.add(item)
             db.session.commit()
             return True
@@ -80,7 +81,7 @@ class Item(db.Model):
         if not self.time:
             self.time = datetime.datetime.now()
         return dict(id=self.id,type=self.type,des=self.des,\
-                srcs=self.srcs, user_id=self.user_id, \
+                srcs=self.srcs, place=self.place, user_id=self.user_id, \
                 time=self.time.strftime('%m-%d-%H-%M-%S'),user=self.user.seri())
 
     def __repr__(self):

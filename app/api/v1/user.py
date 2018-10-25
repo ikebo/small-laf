@@ -159,6 +159,7 @@ def get_personal():
         username = request.form['stu_id']
         password = request.form['stu_pwd']
         res = get_personal_info(username, password)
+        print(res)
         if not res:
             return jsonify(Res(0, 'fail').raw())
         return jsonify(Res(1, 'success', res).raw())

@@ -164,11 +164,15 @@ def has_got_course():
 def get_personal_info(username, password):
 	# 登录
 	ses = mock_login(username, password)
+	print(ses)
+	if (isinstance(ses, dict)):
+		return ses
 	if not ses:
 		return False
 	# portal 首页
 	r = ses.get(portal_url)
 	doc = pq(r.text)
+	print('enter portal', r.text)
 	# 学籍信息直接url
 	personal_url = portal_url + doc('#emphases_tab_1')('ul li:nth-child(9)')('a').attr.href
 	r = ses.get(personal_url)
@@ -176,7 +180,7 @@ def get_personal_info(username, password):
 	# 学籍信息跳转url
 	target_url = json.loads(doc('span#linkurl').text())['url'][0]['url']
 	r = ses.get(target_url)
-	doc = pq(r.text)
+	doc = pq(r.text) 
 	# 跳转后可能显示重复登录, 再进入跳转url
 	if doc('table'):
 		return filter_personal(doc)
@@ -189,13 +193,16 @@ def get_personal_info(username, password):
 # 过滤学生学籍信息
 def filter_personal(doc):
 	trs = doc('table tr')
+	# print('trs', trs)
 	stuid_stuname = pq(trs[1]).text().split('\n')
 	# 学号 姓名 专业 班级 系别
 	stu_id = stuid_stuname[1]
 	stu_name = stuid_stuname[3]
+	print('bp 1')
 	stu_major = pq(trs[6]).text().split('\n')[1]
 	stu_cls = pq(trs[11]).text().split('\n')[2]
 	stu_department = pq(trs[5]).text().split('\n')[3]
+	print('bp 2')
 	return dict(stu_id=stu_id, stu_name=stu_name, stu_major=stu_major, \
 				stu_cls=stu_cls, stu_department=stu_department)
 
@@ -208,7 +215,50 @@ def mock_login(username, password):
 	lt = re.search(lt_pattern, r.text).group(1)
 	data['lt'] = lt
 	pr = ses.post(login_url, data=data, headers=headers)
-	return ses if 'success' in pr.text else False
+	print(pr.text)
+	doc = pq(pr.text)
+	if(doc('.message-btn').attr('value') == '跳过'):
+		return handle_login_secure(username, password)
+	return ses if '用户登录' not in pq(pr.text)('title').text() else False
+
+
+def handle_login_secure(username, password):
+	try:
+		brower.get(portal_url)
+		userele = brower.find_element_by_name('username')
+		pwdele = brower.find_element_by_name('password')
+		btnele = brower.find_element_by_class_name('login')
+		userele.send_keys(username)
+		pwdele.send_keys(password)
+		btnele.click()
+	except Exception as e:
+		print(e)
+	try:
+		aele = brower.find_element_by_css_selector('.message-btn')
+	except Exception as e:
+		print(e)
+		btnele.click()
+		try:
+			aele = brower.find_element_by_css_selector('.message-btn')
+		except Exception as e:
+			return False
+	aele.click()
+	doc = pq(brower.page_source)
+	# print(brower.page_source)
+	personal_url = portal_url + doc('#emphases_tab_1')('ul li:nth-child(9)')('a').attr.href
+	print(personal_url)
+	brower.get(personal_url)
+	doc = pq(brower.page_source)
+	print(brower.page_source)
+	handle_login_again()
+	doc = pq(brower.page_source)
+	print(brower.page_source)
+	if doc('table'):
+		print('yes')
+		return filter_personal(doc)
+	else:
+		return False
+
 
 
 # 模拟登录

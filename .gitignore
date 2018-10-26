@@ -3,6 +3,7 @@
 /venv/
 /.vscode/
 /.idea/
+/app/static/advice/*
 /app/static/uploads/*
 !/app/static/uploads/*.txt
 *.ini

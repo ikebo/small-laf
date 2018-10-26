@@ -38,7 +38,7 @@ def get_yesterday_advice():
     yesterday = yesterday.strftime("%Y-%m-%d")
     folder = app.config['ADVICE_PATH']
     advice_router = folder + os.path.sep + yesterday
-    with open(advice_router, "r") as f:
+    with open(advice_router, "rb") as f:
         content = f.read()
     return content
 

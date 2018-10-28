@@ -118,6 +118,20 @@ def get_users():
         print(e)
         return jsonify(Res(2, 'something error').raw())
 
+@api_v1.route(R('/cancel_auth'), methods=['POST'])
+@log
+def cancel_auth():
+    try:
+        user_id = request.form['user_id']
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify(Res(0, 'no this user').raw())
+        if user.cancel_auth():
+            return jsonify(Res(1, 'success').raw())
+    except Exception as e:
+        print(e)
+        return jsonify(Res(2, 'something error').raw())
+
 @api_v1.route(R('/advice'), methods=['POST'])
 @log
 def advice():

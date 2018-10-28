@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 from app import app
+from app.models.user import User
 
 def format_advice(user_id, advice):
     time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

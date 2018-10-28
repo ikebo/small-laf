@@ -33,6 +33,17 @@ class User(db.Model):
         user = User.query.filter_by(id=user_id).first()
         return user
 
+    def cancel_auth(self):
+        try:
+            self.qqNumber = '0'
+            db.session.add(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+        return False
+
+
     def set_auth(self):
         try:
             self.qqNumber = '1'

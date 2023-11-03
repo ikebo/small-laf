@@ -1,5 +1,4 @@
 # small-laf
-武院失物招领-微信小程序
 
 ```前端代码```在[这里](https://github.com/ikebo/laf)
 
